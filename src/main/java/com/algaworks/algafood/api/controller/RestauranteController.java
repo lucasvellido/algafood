@@ -21,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.algaworks.algafood.api.infrastructure.repository.spec.RestauranteSpecs.comFreteGratis;
-import static com.algaworks.algafood.api.infrastructure.repository.spec.RestauranteSpecs.comNomeSemelhante;
-
 @Controller
 //@ResponseBody O restController já tem isso implementado
 @RestController
@@ -95,7 +92,8 @@ public class RestauranteController {
 
         try {
             if (restauranteAtual.isPresent()) {
-                BeanUtils.copyProperties(restaurante, restauranteAtual.get(), "id");
+                BeanUtils.copyProperties(restaurante, restauranteAtual.get(),
+                        "id", "formaPagamentos", "endereco", "dataCadastro");
 
                 Restaurante restauranteSalvo = cadastroRestaurante.salvar(restauranteAtual.get());
                 return ResponseEntity.ok(restauranteSalvo);

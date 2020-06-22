@@ -17,4 +17,7 @@ public class Cidade {
     private Long id;
 
     private String nome;
+
+    @ManyToOne
+    private Estado estado;
 }

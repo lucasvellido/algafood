@@ -1,8 +1,6 @@
 package com.algaworks.algafood.api.jpa;
 
 import com.algaworks.algafood.api.AlgafoodApiApplication;
-import com.algaworks.algafood.api.domain.model.Cozinha;
-import com.algaworks.algafood.api.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
