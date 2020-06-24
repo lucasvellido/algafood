@@ -19,4 +19,23 @@ insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) val
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (2, 2);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (2, 3);
 
+
 insert into produtos (id, ativo, descricao, nome, preco, restaurante_id) values (1, true, 'seco', 'tomate', 2.50, 1);
+
+insert into usuarios (id, data_cadastro,email,nome,senha) values (1,'2020-06-23 08:22:11.514','lucas@ampliato.com','Lucas Vellido','$2y$12$vVV25N3eH7VoWBlyEuC04uDuIyGDCL37mXEFBMonF56gAWr1jBoZS');
+insert into usuarios (id, data_cadastro,email,nome,senha) values (2,'2020-06-23 08:22:11.514','pedro@ampliato.com','Pedro Vellido','$2y$12$vVV25N3eH7VoWBlyEuC04uDuIyGDCL37mXEFBMonF56gAWr1jBoZS');
+
+INSERT INTO permissoes(id, nome) VALUES(1, 'CONSULTAR_RESTAURANTES');
+INSERT INTO permissoes(id, nome) VALUES(2, 'EDITAR_RESTAURANTES');
+
+INSERT INTO grupos(id, nome) VALUES(1, 'GERENTE');
+INSERT INTO grupos(id, nome) VALUES(2, 'VENDEDOR');
+
+INSERT INTO gropo_permissoes (grupo_id, permissao_id) VALUES(1, 1);
+INSERT INTO gropo_permissoes (grupo_id, permissao_id) VALUES(1, 2);
+INSERT INTO gropo_permissoes (grupo_id, permissao_id) VALUES(2, 1);
+
+INSERT INTO usuario_grupos (usuario_id, grupo_id) VALUES(1, 1);
+INSERT INTO usuario_grupos (usuario_id, grupo_id) VALUES(2, 2);
+
+

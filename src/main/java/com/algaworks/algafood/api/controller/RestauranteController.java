@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.domain.exception.EntidadeNaoEncontradaExceptio
 import com.algaworks.algafood.api.domain.model.Restaurante;
 import com.algaworks.algafood.api.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.api.domain.service.CadastroRestauranteService;
+import com.algaworks.algafood.api.secutity.AlgaSecurity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,12 @@ public class RestauranteController {
     @Autowired
     CadastroRestauranteService cadastroRestaurante;
 
+    @Autowired
+    AlgaSecurity algaSecurity;
+
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurante> listar() {
+        System.out.println("algaSecurity = " + algaSecurity.getUsuarioId());
         return restauranteRepository.findAll();
     }
 
