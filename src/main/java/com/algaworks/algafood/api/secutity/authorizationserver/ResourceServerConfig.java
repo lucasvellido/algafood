@@ -1,8 +1,9 @@
-package com.algaworks.algafood.api.secutity;
+package com.algaworks.algafood.api.secutity.authorizationserver;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -29,8 +30,8 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/restaurantes/**").hasAuthority("EDITAR_RESTAURANTES")
                 .antMatchers(HttpMethod.PUT, "/restaurantes/**").hasAuthority("EDITAR_RESTAURANTES")
                 .antMatchers(HttpMethod.GET, "/restaurantes/**").authenticated()
-                .anyRequest().denyAll()
-//                .anyRequest().authenticated()
+//                .anyRequest().denyAll()
+                .anyRequest().authenticated()
             .and()
                 .cors()
             .and()
@@ -72,6 +73,12 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 //        SecretKeySpec secretKeySpec = new SecretKeySpec("qweqweqweqdadasdsadasdasdewqeqwedaasdasdaweqwe".getBytes(), "HmacSHA256");
 //        return NimbusJwtDecoder.withSecretKey(secretKeySpec).build();
 //    }
+
+    @Bean
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.api.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.api.domain.execeptionhandler.Problema;
 import com.algaworks.algafood.api.domain.model.Cozinha;
 import com.algaworks.algafood.api.domain.model.CozinhasXmlWrapper;
 import com.algaworks.algafood.api.domain.repository.CozinhaRepository;
@@ -14,8 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 //@ResponseBody O restController já tem isso implementado
@@ -41,7 +42,9 @@ public class CozinhaController {
 
     //    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{cozinhaId}")
-    public ResponseEntity<Cozinha> buscar(@PathVariable("cozinhaId") Long id) {
+    public Cozinha buscar(@PathVariable("cozinhaId") Long id) {
+        return cadastroCozinha.buscarOuFalhar(id);
+/*
         Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
         if (cozinha.isPresent()) {
@@ -49,6 +52,7 @@ public class CozinhaController {
         }
 
         return ResponseEntity.notFound().build();
+*/
 
         /*O trecho de código a cima é a mesma coisa que esse*/
 //        return cozinha.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -73,7 +77,14 @@ public class CozinhaController {
     }
 
     @PutMapping("/{cozinhaId}")
-    public ResponseEntity<Cozinha> atualizar(@PathVariable("cozinhaId") Long cozinhaId, @RequestBody  Cozinha cozinha) {
+    public Cozinha atualizar(@PathVariable("cozinhaId") Long cozinhaId, @RequestBody  Cozinha cozinha) {
+        Cozinha cozinhaAtual = cadastroCozinha.buscarOuFalhar(cozinhaId);
+
+        BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+
+        return cadastroCozinha.salvar(cozinhaAtual);
+
+/*
         Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(cozinhaId);
 
         if (cozinhaAtual.isPresent()) {
@@ -87,6 +98,7 @@ public class CozinhaController {
         }
 
         return ResponseEntity.notFound().build();
+*/
     }
 
     @DeleteMapping("/{cozinhaId}")
@@ -95,10 +107,21 @@ public class CozinhaController {
             cadastroCozinha.excluir(cozinhaId);
 
             return ResponseEntity.noContent().build();
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.notFound().build();
+            /*Colo  cando a anotação de classe da exception, não preciso */
+//        } catch (EntidadeNaoEncontradaException e) {
+//            return ResponseEntity.notFound().build();
         } catch (EntidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
+
+//    @ExceptionHandler({EntidadeNaoEncontradaException.class})
+//    public ResponseEntity<?> tratarEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e) {
+//        Problema problema = Problema.builder()
+//                .dateHora(LocalDateTime.now())
+//                .mensagem(e.getMessage())
+//                .build();
+//
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problema);
+//    }
 }
